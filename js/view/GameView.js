@@ -1,4 +1,4 @@
-import { GAME_STATE } from "../config/gameConfig.js";
+import { GAME_OVER_REASON, GAME_STATE } from "../config/gameConfig.js";
 
 export class GameView {
   constructor(elements) {
@@ -39,7 +39,7 @@ export class GameView {
   render(snapshot) {
     this.renderScene(snapshot);
     this.renderHud(snapshot);
-    this.renderInterfaceState(snapshot.state);
+    this.renderInterfaceState(snapshot);
   }
 
   renderScene(snapshot) {
@@ -167,12 +167,15 @@ export class GameView {
   }
 
   drawOverlay(context, snapshot) {
+    const gameOverMessage = snapshot.gameOverReason === GAME_OVER_REASON.TIME
+      ? ["TIEMPO AGOTADO", `Puntuación: ${snapshot.score}`]
+      : ["SIN VIDAS", `Puntuación: ${snapshot.score}`];
     const messages = {
       [GAME_STATE.MENU]: ["BUBBLE PANIC", "Pulsa Comenzar"],
       [GAME_STATE.PAUSED]: ["PAUSA", "Pulsa P o el botón para continuar"],
       [GAME_STATE.ROUND_COMPLETE]: ["¡RONDA SUPERADA!", `Preparando ronda ${snapshot.round + 1}`],
       [GAME_STATE.VICTORY]: ["¡VICTORIA!", `Puntuación: ${snapshot.score}`],
-      [GAME_STATE.GAME_OVER]: ["FIN DE LA PARTIDA", `Puntuación: ${snapshot.score}`],
+      [GAME_STATE.GAME_OVER]: gameOverMessage,
       [GAME_STATE.ENDED]: ["PARTIDA FINALIZADA", "Puedes comenzar de nuevo"]
     };
 
@@ -199,7 +202,8 @@ export class GameView {
     this.elements.score.textContent = snapshot.score;
   }
 
-  renderInterfaceState(state) {
+  renderInterfaceState(snapshot) {
+    const { state } = snapshot;
     const isPlaying = state === GAME_STATE.PLAYING;
     const isPaused = state === GAME_STATE.PAUSED;
     const canEnd = ![GAME_STATE.MENU, GAME_STATE.ENDED].includes(state);
@@ -210,15 +214,27 @@ export class GameView {
     this.elements.pauseButton.disabled = !isPlaying && !isPaused;
     this.elements.endButton.disabled = !canEnd;
 
+    const gameOverStatus = snapshot.gameOverReason === GAME_OVER_REASON.TIME
+      ? "Se ha agotado el tiempo."
+      : "Te has quedado sin vidas.";
     const statusMessages = {
       [GAME_STATE.MENU]: "Pulsa Comenzar para jugar.",
-      [GAME_STATE.PLAYING]: "Muévete con A/D o flechas y dispara con Espacio.",
-      [GAME_STATE.PAUSED]: "Partida en pausa.",
       [GAME_STATE.ROUND_COMPLETE]: "Ronda superada.",
       [GAME_STATE.VICTORY]: "Has completado todas las rondas.",
-      [GAME_STATE.GAME_OVER]: "Te has quedado sin vidas o sin tiempo.",
+      [GAME_STATE.GAME_OVER]: gameOverStatus,
       [GAME_STATE.ENDED]: "Partida finalizada."
     };
-    this.elements.status.textContent = statusMessages[state];
+    const visibleStates = [
+      GAME_STATE.MENU,
+      GAME_STATE.ROUND_COMPLETE,
+      GAME_STATE.VICTORY,
+      GAME_STATE.GAME_OVER,
+      GAME_STATE.ENDED
+    ];
+    this.elements.status.classList.toggle(
+      "game-status--hidden",
+      !visibleStates.includes(state)
+    );
+    this.elements.status.textContent = statusMessages[state] ?? "";
   }
 }

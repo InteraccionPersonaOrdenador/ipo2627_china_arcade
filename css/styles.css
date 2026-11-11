@@ -150,16 +150,25 @@
 
 .game-status {
   position: absolute;
-  inset: auto 50% var(--space-xs) auto;
-  max-width: calc(100% - 2rem);
-  padding: 0.28rem 0.7rem;
+  inset: auto 50% clamp(2.4rem, 9%, 4.5rem) auto;
+  width: max-content;
+  max-width: min(42rem, calc(100% - 2rem));
+  padding: clamp(0.5rem, 1.4vh, 0.75rem) clamp(1rem, 3vw, 1.6rem);
   transform: translateX(50%);
+  border: 0.0625rem solid oklch(100% 0 0 / 18%);
   border-radius: var(--radius-pill);
-  color: var(--color-neutral-100);
-  background-color: oklch(15% 0.025 250 / 76%);
-  font-size: clamp(0.68rem, 1.4vw, 0.82rem);
+  color: var(--color-neutral-000);
+  background-color: oklch(15% 0.025 250 / 90%);
+  box-shadow: 0 0.45rem 1.4rem oklch(8% 0.02 250 / 32%);
+  font-size: clamp(0.82rem, 1.8vw, 1.05rem);
+  font-weight: 750;
+  line-height: 1.35;
   text-align: center;
-  white-space: nowrap;
+  text-wrap: balance;
+}
+
+.game-status--hidden {
+  display: none;
 }
 
 .game-footer {

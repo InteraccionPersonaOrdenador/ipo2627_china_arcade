@@ -1,4 +1,4 @@
-import { GAME_STATE } from "../config/gameConfig.js";
+import { GAME_OVER_REASON, GAME_STATE } from "../config/gameConfig.js";
 import { Ball } from "./entities/Ball.js";
 import { Harpoon } from "./entities/Harpoon.js";
 import { Platform } from "./entities/Platform.js";
@@ -14,6 +14,7 @@ export class GameModel {
     this.timeRemaining = config.rounds[0].time;
     this.transitionRemaining = 0;
     this.invulnerabilityRemaining = 0;
+    this.gameOverReason = null;
     this.balls = [];
     this.platforms = [];
     this.harpoon = null;
@@ -33,6 +34,7 @@ export class GameModel {
     this.score = 0;
     this.lives = this.config.startingLives;
     this.invulnerabilityRemaining = 0;
+    this.gameOverReason = null;
     this.harpoon = null;
     this.player.resetPosition(this.config.width);
     this.loadRound(0);
@@ -86,6 +88,7 @@ export class GameModel {
     this.invulnerabilityRemaining = Math.max(0, this.invulnerabilityRemaining - deltaTime);
 
     if (this.timeRemaining === 0) {
+      this.gameOverReason = GAME_OVER_REASON.TIME;
       this.state = GAME_STATE.GAME_OVER;
       this.harpoon = null;
       return;
@@ -249,6 +252,7 @@ export class GameModel {
     this.invulnerabilityRemaining = this.config.playerInvulnerability;
 
     if (this.lives <= 0) {
+      this.gameOverReason = GAME_OVER_REASON.LIVES;
       this.state = GAME_STATE.GAME_OVER;
     }
   }
@@ -307,6 +311,7 @@ export class GameModel {
       score: this.score,
       lives: this.lives,
       time: Math.ceil(this.timeRemaining),
+      gameOverReason: this.gameOverReason,
       invulnerable: this.invulnerabilityRemaining > 0,
       player: {
         x: this.player.x,

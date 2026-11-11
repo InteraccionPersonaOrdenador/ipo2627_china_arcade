@@ -8,6 +8,11 @@ export const GAME_STATE = Object.freeze({
   ENDED: "ended"
 });
 
+export const GAME_OVER_REASON = Object.freeze({
+  TIME: "time",
+  LIVES: "lives"
+});
+
 export const GAME_CONFIG = Object.freeze({
   width: 960,
   height: 540,
