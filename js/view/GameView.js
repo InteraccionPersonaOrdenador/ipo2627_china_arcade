@@ -45,6 +45,7 @@ export class GameView {
   renderScene(snapshot) {
     const context = this.context;
     this.drawBackground(context, snapshot);
+    this.drawLives(context, snapshot.lives);
     this.drawPlatforms(context, snapshot.platforms);
     this.drawHarpoon(context, snapshot.harpoon);
     this.drawBalls(context, snapshot.balls);
@@ -80,6 +81,21 @@ export class GameView {
       context.fillRect(platform.x, platform.y, platform.width, platform.height);
       context.fillStyle = "oklch(82% 0.1 235)";
       context.fillRect(platform.x, platform.y, platform.width, 4);
+    }
+  }
+
+  drawLives(context, lives) {
+    for (let index = 0; index < lives; index += 1) {
+      const centerX = 30 + index * 30;
+      const headY = 25;
+
+      context.fillStyle = "oklch(68% 0.17 235)";
+      context.fillRect(centerX - 9, headY + 8, 18, 20);
+
+      context.fillStyle = "oklch(88% 0.14 85)";
+      context.beginPath();
+      context.arc(centerX, headY + 5, 8, 0, Math.PI * 2);
+      context.fill();
     }
   }
 
