@@ -1,0 +1,8 @@
+{
+  "name": "bubble-panic",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check js/main.js"
+  }
+}

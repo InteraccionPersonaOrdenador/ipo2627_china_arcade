@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Juego arcade inspirado en Pang desarrollado con Canvas API.">
+  <title>Bubble Panic</title>
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body class="game-page">
+  <header class="game-header">
+    <section class="game-brand" aria-label="Bubble Panic">
+      <p class="game-brand__eyebrow">Arcade Canvas</p>
+      <h1 class="game-brand__title">Bubble Panic</h1>
+    </section>
+
+    <section class="game-hud" aria-label="Estado de la partida">
+      <p class="game-hud__item">
+        <span class="game-hud__label">Ronda</span>
+        <strong class="game-hud__value js-round">1/3</strong>
+      </p>
+      <p class="game-hud__item">
+        <span class="game-hud__label">Tiempo</span>
+        <strong class="game-hud__value js-time">60</strong>
+      </p>
+      <p class="game-hud__item">
+        <span class="game-hud__label">Vidas</span>
+        <strong class="game-hud__value js-lives">3</strong>
+      </p>
+      <p class="game-hud__item">
+        <span class="game-hud__label">Puntos</span>
+        <strong class="game-hud__value js-score">0</strong>
+      </p>
+    </section>
+  </header>
+
+  <main class="game-main">
+    <section class="game-stage" aria-label="Zona de juego">
+      <canvas
+        class="game-canvas js-game-canvas"
+        width="960"
+        height="540"
+        role="img"
+        aria-label="Escenario de Bubble Panic"
+      ></canvas>
+      <p class="game-status js-status" aria-live="polite">Pulsa Comenzar para jugar.</p>
+    </section>
+  </main>
+
+  <footer class="game-footer">
+    <nav class="game-controls" aria-label="Controles de partida">
+      <button class="game-button game-button--primary js-start-button" type="button">Comenzar</button>
+      <button class="game-button game-button--secondary js-pause-button" type="button">Pausar</button>
+      <button class="game-button game-button--secondary js-restart-button" type="button">Reiniciar</button>
+      <button class="game-button game-button--ghost js-end-button" type="button">Finalizar</button>
+      <button class="game-button game-button--ghost js-help-button" type="button">Ayuda</button>
+    </nav>
+  </footer>
+
+  <dialog class="help-dialog js-help-dialog" aria-label="Cómo jugar">
+    <article class="help-card">
+      <header class="help-card__header">
+        <p class="help-card__eyebrow">Manual rápido</p>
+        <h2 class="help-card__title">Cómo jugar</h2>
+      </header>
+
+      <section class="help-card__content">
+        <p class="help-card__text">Elimina todas las bolas antes de que termine el tiempo. Cada impacto divide las bolas grandes en dos más pequeñas.</p>
+        <dl class="help-list">
+          <div class="help-list__item">
+            <dt class="help-list__term">Moverse</dt>
+            <dd class="help-list__description"><kbd class="key">A</kbd> <kbd class="key">D</kbd> o flechas</dd>
+          </div>
+          <div class="help-list__item">
+            <dt class="help-list__term">Disparar</dt>
+            <dd class="help-list__description"><kbd class="key">Espacio</kbd></dd>
+          </div>
+          <div class="help-list__item">
+            <dt class="help-list__term">Pausa</dt>
+            <dd class="help-list__description"><kbd class="key">P</kbd> o <kbd class="key">Esc</kbd></dd>
+          </div>
+        </dl>
+      </section>
+
+      <form class="help-card__actions" method="dialog">
+        <button class="game-button game-button--primary" type="submit">Entendido</button>
+      </form>
+    </article>
+  </dialog>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
